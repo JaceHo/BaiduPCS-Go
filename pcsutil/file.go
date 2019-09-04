@@ -80,6 +80,9 @@ func WalkDir(dirPth, suffix string) (files []string, err error) {
 		if fi.IsDir() { // 忽略目录
 			return nil
 		}
+		if fi.Mode() & os.ModeSymlink != 0 { // 忽略 symbol link
+			return nil
+		}
 		if strings.HasSuffix(strings.ToUpper(fi.Name()), suffix) {
 			files = append(files, filename)
 		}
